@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Note Taking App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main>
+        <h1>My Notes</h1>
+        <p>Add and manage your notes in one place.</p>
+
+        <section>
+            <h2>Add a Note</h2>
+
+            <form id="noteForm">
+                <label for="noteTitle">Note Title</label>
+                <input type="text" id="noteTitle" required>
+
+                <label for="noteContent">Note Content</label>
+                <textarea id="noteContent" required></textarea>
+
+                <button type="submit" id="saveButton">
+                    Add Note
+                </button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Saved Notes</h2>
+            <div id="notesList"></div>
+        </section>
+    </main>
+</body>
+</html>

@@ -4,12 +4,19 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
 
+// Server configuration
+// Render uses its assigned PORT and listens on 0.0.0.0.
+// Local Ubuntu WSL uses port 3000 and listens on 127.0.0.1.
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.RENDER ? '0.0.0.0' : '127.0.0.1';
+
+// Path to the notes JSON file
 const filePath = path.join(__dirname, 'data', 'notes.json');
 
+// Middleware
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Read notes from the JSON file
 function getNotes() {
@@ -44,20 +51,23 @@ app.post('/api/notes', (req, res) => {
     res.json(newNote);
 });
 
-// Update a note
+// Update an existing note
 app.put('/api/notes/:id', (req, res) => {
     const notes = getNotes();
 
     const note = notes.find(note => note.id === req.params.id);
 
     if (!note) {
-        return res.status(404).json({ message: 'Note not found' });
+        return res.status(404).json({
+            message: 'Note not found'
+        });
     }
 
     note.title = req.body.title;
     note.content = req.body.content;
 
     saveNotes(notes);
+
     res.json(note);
 });
 
@@ -65,17 +75,24 @@ app.put('/api/notes/:id', (req, res) => {
 app.delete('/api/notes/:id', (req, res) => {
     const notes = getNotes();
 
-    const updatedNotes = notes.filter(note => note.id !== req.params.id);
+    const updatedNotes = notes.filter(
+        note => note.id !== req.params.id
+    );
 
     if (updatedNotes.length === notes.length) {
-        return res.status(404).json({ message: 'Note not found' });
+        return res.status(404).json({
+            message: 'Note not found'
+        });
     }
 
     saveNotes(updatedNotes);
-    res.json({ message: 'Note deleted' });
+
+    res.json({
+        message: 'Note deleted'
+    });
 });
 
-// Run Express on localhost only
-app.listen(PORT, '127.0.0.1', () => {
-    console.log(`Server running on http://127.0.0.1:${PORT}`);
+// Start the Express server
+app.listen(PORT, HOST, () => {
+    console.log(`Server running on http://${HOST}:${PORT}`);
 });

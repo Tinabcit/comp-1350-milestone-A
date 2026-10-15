@@ -56,25 +56,39 @@ pm2 save
 ---
 
 ## 5. Nginx Reverse Proxy Configuration
-We configured Nginx to securely forward incoming external requests to the Express application running locally on `127.0.0.1:3000`.
+We configured Nginx to securely forward incoming external requests to the Express application running locally on `127.0.0.1:3000`. We also configured it to redirect HTTP requests to HTTPS, as well as using a self-signed TLS certificate.
 
 Below is the server configuration snippet used:
 
 ```nginx
 server {
-    listen 80;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name localhost _;
+
+    return 301 https://localhost$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
     server_name localhost;
+
+    ssl_certificate /etc/nginx/ssl/localhost.crt;
+    ssl_certificate_key /etc/nginx/ssl/localhost.key;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
 
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_cache_bypass \$http_upgrade;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_cache_bypass $http_upgrade;
     }
 }
 ```

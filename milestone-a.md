@@ -10,7 +10,7 @@ For our Milestone A project, we created a simple note-taking web application whe
 
 We used HTML, CSS, and JavaScript for the frontend and Node.js with Express for the backend. The notes are currently stored in a JSON file.
 
-We also deployed our application to Render so it can be accessed online. Along with the live deployment, we set up PM2 and Nginx locally using Ubuntu WSL to practice managing a Node.js application and configuring a reverse proxy.
+We also deployed our application to Render so it can be accessed online. Along with the live deployment, we set up PM2 and Nginx locally using Ubuntu WSL to practice managing a Node.js application and configuring a reverse proxy. We also configured Nginx on a Linux Mint machine to implement and test the reverse proxy, TLS, and getting the app to redirect HTTP to HTTPS.
 
 **Live Website:** https://comp-1350-milestone-a.onrender.com
 
@@ -33,7 +33,7 @@ This helped us understand how process managers can keep backend applications run
 
 ## 3. Nginx Reverse Proxy
 
-We also configured Nginx as a reverse proxy in our local Ubuntu WSL environment.
+We also configured Nginx as a reverse proxy in our local Ubuntu WSL and Linux Mint environment.
 
 Instead of accessing the Express backend directly, Nginx receives the HTTP requests and forwards them to our application running on `127.0.0.1:3000`.
 
@@ -49,15 +49,57 @@ In this configuration, `location /` tells Nginx which requests to handle, while 
 
 We used `127.0.0.1` so the backend would only listen locally rather than directly on a public network interface.
 
-To test the setup, we used:
+Our live Render deployment uses Render's managed routing instead of our local Nginx configuration. We are confirming with our instructor whether we can use the local setup as evidence for this requirement.
 
-```bash
-curl -I http://localhost
+For local testing on the Linux Mint machine, we used these server blocks.
+The first server block is listening on port 80 and redirects HTTP to HTTPS. The second server listens on port 443 with a self-signed TLS certificate, and sends requests forwards to the express app at `127.0.0.1:3000` with `proxy_set_header` passing headers/information to the backend.
+
+```nginx
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        server_name localhost _;
+
+        return 301 https://localhost$request_uri;
+    }
+
+    server {
+        listen 443 ssl;
+        listen [::]:443 ssl;
+
+        server_name localhost;
+
+        ssl_certificate /etc/nginx/ssl/localhost.crt;
+        ssl_certificate_key /etc/nginx/ssl/localhost.key;
+
+        location / {
+            proxy_pass http://127.0.0.1:3000;
+            proxy_http_version 1.1;
+
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_cache_bypass $http_upgrade;
+        }
+    }
 ```
 
-Our earlier test returned `200 OK` with Nginx and Express headers, showing that the local reverse proxy was working.
+To test the handling, we first confirmed the nginx syntax was valid, and then ran some curl commands as tests. This first one curls the HTTP address, which shows it has redirected permanently.
 
-Our live Render deployment uses Render's managed routing instead of our local Nginx configuration. We are confirming with our instructor whether we can use the local setup as evidence for this requirement.
+```cli
+curl -I http://localhost 
+```
+
+This next command curls the secure address and responds OK with headers, showing responses go here instead.
+
+```cli
+curl -k -I https://localhost
+```
+
+The certificate is self-signed and intended for local testing. The public Render deployment uses Render's managed routing, separate from this local Nginx configuration.
 
 ## 4. Deployment to Render
 

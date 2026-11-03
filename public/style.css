@@ -1,70 +1,461 @@
 
+/* General Styles */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #eef3fb;
+    color: #1e293b;
     margin: 0;
-    padding: 20px;
 }
 
-main {
-    max-width: 800px;
-    margin: 0 auto;
+h1, h2, h3 {
+    color: #1e293b;
 }
 
-h1 {
-    color: #333;
-}
+/* Navigation Bar */
 
-section {
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: white;
-    padding: 20px;
-    margin-top: 20px;
+    padding: 20px 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navbar .logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #1e293b;
+    text-decoration: none;
+}
+
+/* Navigation Links */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: #334155;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    margin: 0;
+}
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+/* Sign In Navigation Button */
+
+.nav-links .nav-signin {
+    background-color: #2563eb;
+    color: white;
+    padding: 11px 20px;
     border-radius: 8px;
 }
 
-label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
+.nav-links .nav-signin:hover {
+    background-color: #1d4ed8;
+    color: white;
 }
 
-input, textarea {
+/* Homepage Layout */
+
+.home-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 50px;
+}
+
+/* Hero Section */
+
+.hero {
+    text-align: center;
+    padding: 120px 20px 100px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin: 0 0 30px;
+}
+
+.hero h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    color: #64748b;
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+/* Google Sign In Button */
+
+.google-button {
+    display: inline-block;
+    background-color: #2563eb;
+    color: white;
+    text-decoration: none;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 40px;
+}
+
+.google-button:hover {
+    background-color: #1d4ed8;
+}
+
+.hero .signin-description {
+    font-size: 15px;
+    margin-top: 20px;
+}
+
+/* Features Section */
+
+.features {
+    background-color: white;
+    padding: 50px 35px;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.features h2 {
+    font-size: 28px;
+    margin-top: 0;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.feature-card {
+    background-color: #f8fafc;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.feature-card h3 {
+    margin-top: 0;
+}
+
+.feature-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* About Section */
+
+.about {
+    background-color: white;
+    padding: 50px 35px;
+    margin-top: 30px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.about h2 {
+    font-size: 28px;
+}
+
+.about p {
+    max-width: 750px;
+    margin: 0 auto;
+    color: #64748b;
+    line-height: 1.8;
+}
+
+/* Dashboard Layout */
+
+.dashboard-page main {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 25px 20px 50px;
+}
+
+.dashboard-header {
+    position: relative;
+    min-height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 30px;
+}
+
+/* Center Dashboard Heading */
+
+.header-title {
+    text-align: center;
+}
+
+.header-title h1 {
+    font-size: 40px;
+    margin: 0 0 12px;
+}
+
+.header-title p {
+    color: #64748b;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Google Account Top Right */
+
+.google-account {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: white;
+    padding: 15px;
+    border-radius: 12px;
+    min-width: 180px;
+    max-width: 230px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.account-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.account-avatar {
+    background-color: #dbeafe;
+    color: #2563eb;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.google-account h3 {
+    font-size: 14px;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.google-account p {
+    font-size: 12px;
+    color: #64748b;
+    margin: 5px 0 0;
+}
+
+.google-account form {
+    margin: 0;
+}
+
+/* Note Sections */
+
+.note-section {
+    background-color: white;
+    padding: 28px;
+    margin-top: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.note-section h2 {
+    margin: 0;
+    font-size: 23px;
+}
+
+.section-description {
+    color: #64748b;
+    font-size: 14px;
+    margin: 10px 0 25px;
+}
+
+/* Note Form */
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 18px 0 8px;
+}
+
+input,
+textarea {
     width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #dbe3ef;
+    background-color: #f8fafc;
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    background-color: white;
 }
 
 textarea {
-    min-height: 120px;
+    min-height: 150px;
+    resize: vertical;
 }
+
+/* Buttons */
 
 button {
     background-color: #2563eb;
     color: white;
     border: none;
-    padding: 10px 15px;
-    margin-top: 15px;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 button:hover {
     background-color: #1d4ed8;
 }
 
+/* Log Out Button */
+
+.logout-button {
+    width: 100%;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    margin-top: 12px;
+}
+
+.logout-button:hover {
+    background-color: #fecaca;
+}
+
+/* Saved Notes */
+
+#notesList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
 .note {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-top: 15px;
-    border-radius: 5px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.note h3 {
+    margin-top: 0;
+    overflow-wrap: anywhere;
 }
 
 .note p {
+    color: #64748b;
+    line-height: 1.6;
     white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .note button {
-    margin-right: 10px;
+    margin-right: 8px;
+    padding: 9px 14px;
+    font-size: 13px;
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* Tablet and Mobile */
+
+@media (max-width: 700px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .hero {
+        padding: 70px 15px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero h2 {
+        font-size: 22px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+        min-height: auto;
+        padding-top: 10px;
+    }
+
+    .header-title h1 {
+        font-size: 30px;
+    }
+
+    .google-account {
+        position: static;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .note-section {
+        padding: 20px;
+    }
+
+    #notesList {
+        grid-template-columns: 1fr;
+    }
 }

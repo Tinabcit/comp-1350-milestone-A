@@ -103,3 +103,16 @@ async function deleteNote(id) {
 
 // Load notes when the page opens
 loadNotes();
+// Display the signed-in user's name
+async function loadUser() {
+    const response = await fetch('/api/me');
+
+    if (response.ok) {
+        const user = await response.json();
+
+        document.getElementById('welcomeMessage').textContent =
+            'Hi ' + user.name + '!';
+    }
+}
+
+loadUser();

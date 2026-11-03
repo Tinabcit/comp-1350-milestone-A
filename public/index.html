@@ -4,35 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Note Taking App</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <title>My Notes | NoteSpace</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
 </head>
-<body>
-    <main>
-        <h1>My Notes</h1>
-        <p>Add and manage your notes in one place.</p>
+<body class="dashboard-page">
 
-        <section>
-            <h2>Add a Note</h2>
+    <nav class="navbar">
+        <a href="/notes" class="logo">📝 NoteSpace</a>
+        <span>My Workspace</span>
+    </nav>
+
+    <main>
+
+        <!-- Dashboard Header -->
+        <header class="dashboard-header">
+
+            <div class="header-title">
+                <h1>My Notes</h1>
+                <p>Capture your ideas, stay organized.</p>
+            </div>
+
+            <!-- Google Account Top Right -->
+            <div class="google-account">
+                <div class="account-info">
+                    <div class="account-avatar">G</div>
+
+                    <div>
+                        <h3 id="welcomeMessage">Welcome!</h3>
+                        <p>Google Account</p>
+                    </div>
+                </div>
+
+                <form action="/logout" method="POST">
+                    <button type="submit" class="logout-button">
+                        Log Out
+                    </button>
+                </form>
+            </div>
+
+        </header>
+
+        <!-- Add Note -->
+        <section class="note-section">
+            <h2>✏️ Add a Note</h2>
+            <p class="section-description">
+                Write down something important.
+            </p>
 
             <form id="noteForm">
                 <label for="noteTitle">Note Title</label>
-                <input type="text" id="noteTitle" required>
+                <input
+                    type="text"
+                    id="noteTitle"
+                    placeholder="Enter your note title..."
+                    required
+                >
 
                 <label for="noteContent">Note Content</label>
-                <textarea id="noteContent" required></textarea>
+                <textarea
+                    id="noteContent"
+                    placeholder="Write your thoughts here..."
+                    required
+                ></textarea>
 
                 <button type="submit" id="saveButton">
-                    Add Note
+                    + Add Note
                 </button>
             </form>
         </section>
 
-        <section>
-            <h2>Saved Notes</h2>
+        <!-- Saved Notes -->
+        <section class="note-section">
+            <h2>📚 Saved Notes</h2>
+            <p class="section-description">
+                View and manage your notes.
+            </p>
+
             <div id="notesList"></div>
         </section>
+
     </main>
+
+    <footer>
+        <p>NoteSpace | My Note-Taking App</p>
+    </footer>
+
 </body>
 </html>

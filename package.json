@@ -2,7 +2,7 @@
 {
   "name": "note-taking-app",
   "version": "1.0.0",
-  "description": "COMP 1350 Milestone A Note-Taking App",
+  "description": "COMP 1350 Milestone A - Note Taking App",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

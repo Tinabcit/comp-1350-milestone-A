@@ -116,3 +116,68 @@ async function loadUser() {
 }
 
 loadUser();
+
+const githubForm = document.getElementById('githubForm');
+const githubUsername = document.getElementById('githubUsername');
+const githubCalendar = document.getElementById('github-calendar');
+const githubStatus = document.getElementById('githubStatus');
+const githubButton = document.getElementById('githubButton');
+
+async function loadGitHubCalendar(username) {
+    githubCalendar.innerHTML = '';
+    githubStatus.textContent = 'Loading';
+    githubButton.disabled = true;
+    githubButton.textContent = 'Loading';
+
+    try {
+        const response = await fetch(
+            `https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(username)}`
+        );
+
+        if (!response.ok) {
+            throw new Error('Could not find GitHub contributions.');
+        }
+
+        const result = await response.json();
+
+        if (!result.contributions || result.contributions.length === 0) {
+            throw new Error('No contributions found.');
+        }
+
+        githubCalendar.innerHTML = '';
+
+        const colors = [
+            '#ebedf0',
+            '#9be9a8',
+            '#40c463',
+            '#30a14e',
+            '#216e39'
+        ];
+
+        result.contributions.forEach(day => {
+            const square = document.createElement('div');
+            square.className = 'contribution-day';
+            square.title = `${day.count} contributions on ${day.date}`;
+            square.style.backgroundColor = colors[Math.min(day.level, 4)];
+            githubCalendar.appendChild(square);
+        });
+        githubStatus.textContent = `Showing contributions for @${username}`;
+
+    } catch (error) {
+        githubStatus.textContent = 'Unable to load contributions. Please check the username and try again.';
+        githubCalendar.innerHTML = '';
+        console.error('GitHub calendar error:', error);
+
+    } finally {
+        githubButton.disabled = false;
+        githubButton.textContent = 'Load Contributions';
+
+    }
+}
+
+githubForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = githubUsername.value.trim();
+    if (!username) return;
+    loadGitHubCalendar(username);
+});

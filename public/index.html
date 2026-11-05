@@ -84,6 +84,34 @@
             <div id="notesList"></div>
         </section>
 
+
+       <section class="note-section github-section">
+            <h2></h2>GitHub Contributions</h2>
+
+            <p class="section-description"> Enter your GitHub username and see your contributions.</p>
+
+            <form id="githubForm" class="github-form">
+                <label for="githubUsername">GitHub Username</label>
+
+                <div class="github-input-group">
+                    <input
+                        type="text"
+                        id="githubUsername"
+                        placeholder="Enter username here"
+                        required
+                    >
+
+                    <button type="submit" id="githubButton">
+                        Load Contributions
+                    </button>
+                </div>
+            </form>
+
+            <p id="githubStatus" class="github-status"></p>
+
+            <div id="github-calendar"></div>
+    </section>
+
     </main>
 
     <footer>

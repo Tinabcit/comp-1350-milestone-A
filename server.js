@@ -1,28 +1,13 @@
-
 require('dotenv').config();
 
 const express = require('express');
-// Milestone C - Centralized HTTP request logging
-app.use((req, res, next) => {
-    const start = Date.now();
-
-    res.on("finish", () => {
-        const duration = Date.now() - start;
-        const server = process.env.SERVER_NAME || "notes-app";
-
-        console.log(
-            `[HTTP] ${server} ${req.method} ${req.path} ${res.statusCode} ${duration}ms`
-        );
-    });
-
-    next();
-});
 const fs = require('fs');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
+// Initialize Express application
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -43,6 +28,22 @@ for (const variable of requiredVariables) {
         throw new Error(`Missing environment variable: ${variable}`);
     }
 }
+
+// Milestone C - Centralized HTTP request logging
+app.use((req, res, next) => {
+    const start = Date.now();
+
+    res.on('finish', () => {
+        const duration = Date.now() - start;
+        const server = process.env.SERVER_NAME || 'notes-app';
+
+        console.log(
+            `[HTTP] ${server} ${req.method} ${req.path} ${res.statusCode} ${duration}ms`
+        );
+    });
+
+    next();
+});
 
 // Middleware
 app.use(express.json());
@@ -118,13 +119,15 @@ app.get('/style.css', (req, res) => {
 app.get('/script.js', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'script.js'));
 });
-//Health Check for HAProxy
+
+// Milestone C - Health Check for HAProxy
 app.get('/health', (req, res) => {
     res.status(200).json({
         status: 'OK',
         server: process.env.SERVER_NAME || 'notes-app'
-    })
-})
+    });
+});
+
 // Homepage
 app.get('/', (req, res) => {
     if (req.isAuthenticated()) {
@@ -188,6 +191,7 @@ function getNotes() {
     }
 
     const data = fs.readFileSync(filePath, 'utf8');
+
     return JSON.parse(data);
 }
 
@@ -283,4 +287,5 @@ app.delete('/api/notes/:id', requireAuth, (req, res) => {
 // Start Server
 app.listen(PORT, HOST, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server name: ${process.env.SERVER_NAME || 'notes-app'}`);
 });

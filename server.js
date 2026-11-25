@@ -103,7 +103,13 @@ app.get('/style.css', (req, res) => {
 app.get('/script.js', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'script.js'));
 });
-
+//Health Check for HAProxy
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'OK',
+        server: process.env.SERVER_NAME || 'notes-app'
+    })
+})
 // Homepage
 app.get('/', (req, res) => {
     if (req.isAuthenticated()) {

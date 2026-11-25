@@ -5,7 +5,8 @@ node_modules/
 .env
 .env.*
 !.env.example
-
+.vagrant/
+data/notes.json
 # Logs
 *.log
 logs/

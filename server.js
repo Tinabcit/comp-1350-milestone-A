@@ -2,6 +2,21 @@
 require('dotenv').config();
 
 const express = require('express');
+// Milestone C - Centralized HTTP request logging
+app.use((req, res, next) => {
+    const start = Date.now();
+
+    res.on("finish", () => {
+        const duration = Date.now() - start;
+        const server = process.env.SERVER_NAME || "notes-app";
+
+        console.log(
+            `[HTTP] ${server} ${req.method} ${req.path} ${res.statusCode} ${duration}ms`
+        );
+    });
+
+    next();
+});
 const fs = require('fs');
 const path = require('path');
 const session = require('express-session');

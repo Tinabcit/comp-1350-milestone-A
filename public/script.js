@@ -181,3 +181,29 @@ githubForm.addEventListener('submit', (e) => {
     if (!username) return;
     loadGitHubCalendar(username);
 });
+
+const themeToggle = document.getElementById('themeToggle');
+
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+if (themeToggle) {
+    updateButton();
+
+    themeToggle.addEventListener('click', () => {
+
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        localStorage.setItem('theme', currentTheme);
+
+        updateButton();
+    });
+}
+
+function updateButton() {
+    themeToggle.textContent =
+        currentTheme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode';
+}
